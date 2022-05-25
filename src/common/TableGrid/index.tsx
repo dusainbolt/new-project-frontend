@@ -24,11 +24,11 @@ interface TableGridProps {
 
 export const TableGrid: FC<TableGridProps> = ({ paging, height = 550, columns = [], rows = [], loadingData }) => {
   const handleChangePage = () => {
-    console.log('123123');
+    // console.log('123123');
   };
 
   const handleChangeRowsPerPage = () => {
-    console.log('handleChangeRowsPerPage');
+    // console.log('handleChangeRowsPerPage');
   };
 
   const page = (paging.currentPage || 1) - 1;

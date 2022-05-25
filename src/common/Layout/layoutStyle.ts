@@ -1,7 +1,7 @@
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import theme from '@styles/theme';
 
-export const layoutStyle = makeStyles({
+export const layoutStyle = makeStyles((theme: Theme) => ({
   header: {
     position: 'sticky',
     left: 0,
@@ -104,4 +104,4 @@ export const layoutStyle = makeStyles({
       marginRight: 3,
     },
   },
-});
+}));

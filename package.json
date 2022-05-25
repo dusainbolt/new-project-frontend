@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
+    "prepare": "husky install",
+    "format": "prettier --write \"{src,__tests__}/**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"{src,__tests__}/**/*.{js,ts,tsx}\" --fix",
     "start": "next start",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -63,6 +66,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^8.0.1",
     "jest": "^27.0.6",
     "jest-environment-jsdom": "^27.0.6",
     "prettier": "^2.3.2",
