@@ -1,5 +1,6 @@
-import { createTheme } from '@mui/material/styles';
 import createCache from '@emotion/cache';
+import { PaletteMode } from '@mui/material';
+import Constant from '@utils/constant';
 
 type DefaultStyle = {
   container: any;
@@ -31,11 +32,15 @@ export const defaultStyle: DefaultStyle = {
 };
 
 // Create a theme instance.
-const theme = createTheme({
+// const theme = createTheme({
+
+// });
+export const getThemeConfig = (mode: PaletteMode) => ({
+  mode,
   palette: {
     common: {
-      black: '#19192B',
-      white: '#ffffff',
+      black: mode === Constant.THEME_MODE.LIGHT ? '#19192B' : '#ffffff',
+      white: mode === Constant.THEME_MODE.LIGHT ? '#ffffff' : '#19192B',
     },
     primary: {
       light: '#B3E5FC',
@@ -91,4 +96,4 @@ export function createEmotionCache() {
   return createCache({ key: 'css', prepend: true });
 }
 
-export default theme;
+// export default theme;

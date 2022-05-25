@@ -2,10 +2,13 @@
 /* eslint-disable no-unused-vars */
 import { OpenDialogAction } from '@redux/action/layoutAction';
 import { RootState } from '@redux/reducer';
+import { getPersistConfig } from '@redux/storage';
 import { AppState } from '@redux/store';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { LayoutSlice } from '@type/layout';
+import Constant from '@utils/constant';
 import { HYDRATE } from 'next-redux-wrapper';
+import { persistReducer } from 'redux-persist';
 
 const initialState: LayoutSlice = {};
 
@@ -39,4 +42,4 @@ export const getLayoutSlice = (state: RootState): LayoutSlice => state[sliceName
 
 export const { openDialogApp, closeDialogApp } = layoutSlice.actions;
 
-export default layoutSlice.reducer;
+export default persistReducer(getPersistConfig(sliceName, { whitelist: ['themeMode'] }), layoutSlice.reducer);

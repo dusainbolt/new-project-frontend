@@ -1,16 +1,19 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import NoSsr from '@mui/material/NoSsr';
-import { ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { wrapper } from '@redux/store';
 import { compose } from '@reduxjs/toolkit';
 import axios from '@request/axios';
 import '@styles/globals.css';
-import theme, { createEmotionCache } from '@styles/theme';
+import { createEmotionCache, getThemeConfig } from '@styles/theme';
 import { AuthSlice } from '@type/auth';
+import Constant from '@utils/constant';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { FC } from 'react';
+import { createContext, FC, useEffect, useMemo, useState } from 'react';
 //@ts-ignore
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -29,11 +32,38 @@ const onBeforeLift = (store: Store) => () => {
   axios.setTokenRequest(authSlice.token as any);
 };
 
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
+export const ThemeContext = createContext(Constant.THEME_MODE.LIGHT);
+
 const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const isClient = typeof window !== 'undefined';
 
   const store = useStore();
-  const isClient = typeof window !== 'undefined';
+
+  const themeMode: any = isClient ? localStorage.getItem(Constant.THEME_MODE.KEY) : Constant.THEME_MODE.LIGHT;
+
+  // theme logic
+  const [mode, setMode] = useState<PaletteMode>(themeMode);
+
+  useEffect(() => {
+    mode && localStorage.setItem(Constant.THEME_MODE.KEY, mode);
+  }, [mode]);
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        // store.dispatch(toggleThemeMode());
+
+        setMode((prevMode) =>
+          prevMode === Constant.THEME_MODE.LIGHT ? Constant.THEME_MODE.DARK : Constant.THEME_MODE.LIGHT
+        );
+      },
+    }),
+    []
+  );
+  const theme = useMemo(() => createTheme(getThemeConfig(mode)), [mode]);
+
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   // useEffect(() => {
   //   // Remove the server-side injected CSS.
@@ -57,14 +87,18 @@ const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
         <title>My App</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        {PageComponent}
-        <NoSsr>
-          <NotificationContainer />
-        </NoSsr>
-      </ThemeProvider>
+      <ThemeContext.Provider value={mode}>
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            {PageComponent}
+            <NoSsr>
+              <NotificationContainer />
+            </NoSsr>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </ThemeContext.Provider>
     </CacheProvider>
   );
 };

@@ -38,14 +38,14 @@ function makeStore() {
     // we need it only on client
     // persist config
     const persistConfig = {
-      version: 1,
-      key: process.env.APP_NAME as string,
+      version: process.env.NEXT_PUBLIC_VERSION,
+      key: process.env.NEXT_PUBLIC_APP_NAME as string,
       whitelist: whitelist, // make sure it does not clash with server keys
       storage,
     };
 
     // create persist reducer
-    const persistedReducer = persistReducer(persistConfig, rootReducer);
+    const persistedReducer = persistReducer(persistConfig as any, rootReducer);
     storeWrapper = makeConfigStore(persistedReducer);
     (storeWrapper as any).__persistor = persistStore(storeWrapper); // Nasty hack
   }
