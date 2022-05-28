@@ -39,8 +39,8 @@ export const getThemeConfig = (mode: PaletteMode) => ({
   mode,
   palette: {
     common: {
-      black: mode === Constant.THEME_MODE.LIGHT ? '#19192B' : '#ffffff',
-      white: mode === Constant.THEME_MODE.LIGHT ? '#ffffff' : '#19192B',
+      black: mode === Constant.theme.LIGHT ? '#19192B' : '#ffffff',
+      white: mode === Constant.theme.LIGHT ? '#ffffff' : '#19192B',
     },
     primary: {
       light: '#B3E5FC',

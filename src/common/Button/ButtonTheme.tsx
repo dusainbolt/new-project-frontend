@@ -13,7 +13,7 @@ export const ButtonTheme = () => {
 
   return (
     <IconButton sx={{ ml: 1, color: theme.palette.common.black }} onClick={colorMode.toggleColorMode} color="inherit">
-      {themeMode === Constant.THEME_MODE.DARK ? <Brightness7Icon /> : <Brightness4Icon />}
+      {themeMode === Constant.theme.DARK ? <Brightness7Icon /> : <Brightness4Icon />}
     </IconButton>
   );
 };

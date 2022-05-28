@@ -1,9 +1,7 @@
 /* eslint-disable class-methods-use-this */
-import { logout } from '@redux/slices/authSlice';
-import { storeWrapper } from '@redux/store';
 import Constant from '@utils/constant';
 import axios, { AxiosInstance } from 'axios';
-import { NotificationManager } from 'react-notifications';
+import { toast } from 'react-toastify';
 
 class AxiosServer {
   private instance: AxiosInstance;
@@ -37,18 +35,23 @@ class AxiosServer {
   //   }
 
   handelSuccess(response) {
-    if (Constant.CODE.ERROR_RESPONSE === response.data?.code) {
-      NotificationManager.warning(response.data?.msg, 'Warning');
-    } else if (Constant.CODE.ERROR_AUTHENTICATION === response.data?.code) {
-      NotificationManager.warning('Your session is expire', 'Warning');
-      // console.log('storeWrapper: ', storeWrapper);
-      Promise.all([storeWrapper.dispatch(logout())]);
+    if (Constant.code.ERROR_RESPONSE === response.data?.code) {
+      toast.warn(response.data?.message);
+      // NotificationManager.warning(response.data?.msg, 'Warning');
+    } else if (Constant.code.ERROR_AUTHENTICATION === response.data?.code) {
+      toast.warn('Your session is expire');
+      // Promise.all([storeWrapper.dispatch(logout())]);
     }
     return response.data;
   }
 
-  handelError(error) {
-    NotificationManager.error(error.toString(), 'Error');
+  handelError(e) {
+    const error = e.toJSON();
+    if (error?.status === Constant.code.ERROR_AUTHENTICATION) {
+      toast.error('Truy cập bị từ chối, vui lòng thử lại');
+    } else {
+      toast.error(error.toString());
+    }
     return Promise.reject(error);
   }
 

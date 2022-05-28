@@ -9,17 +9,17 @@ import { compose } from '@reduxjs/toolkit';
 import axios from '@request/axios';
 import '@styles/globals.css';
 import { createEmotionCache, getThemeConfig } from '@styles/theme';
-import { AuthSlice } from '@type/auth';
 import Constant from '@utils/constant';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import 'react-toastify/dist/ReactToastify.css';
 import { createContext, FC, useEffect, useMemo, useState } from 'react';
 //@ts-ignore
-import { NotificationContainer } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
 import { useStore } from 'react-redux';
 import { Store } from 'redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ToastContainer } from 'react-toastify';
+import { UserSlice } from '@type/user';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -28,25 +28,27 @@ interface MyAppProps extends AppProps {
 }
 
 const onBeforeLift = (store: Store) => () => {
-  const authSlice: AuthSlice = store.getState().authSlice;
-  axios.setTokenRequest(authSlice.token as any);
+  const userSlice: UserSlice = store.getState().userSlice;
+  axios.setTokenRequest(userSlice.token as any);
 };
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
-export const ThemeContext = createContext(Constant.THEME_MODE.LIGHT);
+export const ThemeContext = createContext(Constant.theme.LIGHT);
 
 const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
   const isClient = typeof window !== 'undefined';
 
   const store = useStore();
 
-  const themeMode: any = isClient ? localStorage.getItem(Constant.THEME_MODE.KEY) : Constant.THEME_MODE.LIGHT;
+  const themeMode: any = isClient
+    ? localStorage.getItem(Constant.theme.KEY) || Constant.theme.LIGHT
+    : Constant.theme.LIGHT;
 
   // theme logic
   const [mode, setMode] = useState<PaletteMode>(themeMode);
 
   useEffect(() => {
-    mode && localStorage.setItem(Constant.THEME_MODE.KEY, mode);
+    mode && localStorage.setItem(Constant.theme.KEY, mode);
   }, [mode]);
 
   const colorMode = useMemo(
@@ -54,9 +56,7 @@ const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
       toggleColorMode: () => {
         // store.dispatch(toggleThemeMode());
 
-        setMode((prevMode) =>
-          prevMode === Constant.THEME_MODE.LIGHT ? Constant.THEME_MODE.DARK : Constant.THEME_MODE.LIGHT
-        );
+        setMode((prevMode) => (prevMode === Constant.theme.LIGHT ? Constant.theme.DARK : Constant.theme.LIGHT));
       },
     }),
     []
@@ -94,7 +94,7 @@ const MyApp: FC<MyAppProps> = (props: MyAppProps) => {
             <CssBaseline />
             {PageComponent}
             <NoSsr>
-              <NotificationContainer />
+              <ToastContainer />
             </NoSsr>
           </ThemeProvider>
         </ColorModeContext.Provider>

@@ -2,7 +2,7 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { defaultStyle } from '@styles/theme';
 
-export const homePageStyles = makeStyles((theme: Theme) => ({
+export const loginPageStyle = makeStyles((theme: Theme) => ({
   main: {
     background: theme.palette.common.white,
   },

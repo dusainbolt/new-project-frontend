@@ -1,11 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import authSlice from './slices/authSlice';
+import userSlice from './slices/userSlice';
 import layoutSlice from './slices/layoutSlice';
 
 export const whitelist = [];
 
 export const rootReducer = combineReducers({
-  authSlice,
+  userSlice,
   layoutSlice,
 });
 

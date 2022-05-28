@@ -46,7 +46,7 @@ const FieldDate: FC<FieldDateType> = ({ label, required, className, field }) => 
         <DatePicker
           label={label}
           value={Date.renderDayjs(field?.value)}
-          inputFormat={Constant.DATE.D_M_Y}
+          inputFormat={Constant.date.D_M_Y}
           onChange={handleChange}
           renderInput={(params) => (
             <TextField

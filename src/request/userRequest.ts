@@ -1,6 +1,10 @@
-import { LoginParams } from '@redux/action/authAction';
+import { VerifyOAuth2Params } from '@redux/action/userAction';
 import axios from './axios';
 
-export const loginAPI = async (body: LoginParams) => {
-  return await axios.post('/user/login', body);
+export const verifyFacebookAPI = async (params: VerifyOAuth2Params) => {
+  return await axios.get('/auth/facebook', params);
+};
+
+export const verifyGoogleAPI = async (params: VerifyOAuth2Params) => {
+  return await axios.get(`/auth/google/${params.access_token}`);
 };
