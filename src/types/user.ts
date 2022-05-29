@@ -37,6 +37,8 @@ export type User = {
 
   username?: string;
 
+  name?: string;
+
   firstName?: string;
 
   lastName?: string;
@@ -66,6 +68,26 @@ export type User = {
 
 export type UserSlice = {
   loadingLogin: boolean;
+  loadingGetList?: boolean;
   token?: string;
   user?: User;
+  list?: User[];
+};
+
+export type UpdateUserInput = {
+  username: string;
+};
+
+export type SearchUserInput = {
+  count?: boolean;
+
+  key?: string;
+
+  limit?: number;
+
+  offset?: number;
+
+  orderBy?: string;
+
+  sortBy?: number;
 };

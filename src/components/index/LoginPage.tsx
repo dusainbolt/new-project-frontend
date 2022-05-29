@@ -34,7 +34,7 @@ const LoginPage: FC<any> = () => {
   return (
     <main className={styles.main}>
       <Container maxWidth="lg">
-        LOGIN PAGE
+        Dang Nhap
         <div>
           <ButtonTheme />
 
@@ -60,7 +60,7 @@ const LoginPage: FC<any> = () => {
           onLoginFailure={handleSocialLoginFailure}
           loading={loadingLogin}
         >
-          Login with Facebook
+          Dang nhap voi Facebook
         </SocialButton>
 
         <SocialButton
@@ -70,7 +70,7 @@ const LoginPage: FC<any> = () => {
           onLoginFailure={handleSocialLoginFailure}
           loading={loadingLogin}
         >
-          Login with Google
+          Dang nhap voi Google
         </SocialButton>
       </NoSsr>
     </main>

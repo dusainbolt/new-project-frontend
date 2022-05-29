@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { OpenDialogAction } from '@redux/action/layoutAction';
+import { OpenDialogAction } from '@redux/actions/layoutAction';
 import { RootState } from '@redux/reducer';
 import { getPersistConfig } from '@redux/storage';
 import { AppState } from '@redux/store';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { LayoutSlice } from '@type/layout';
-import Constant from '@utils/constant';
 import { HYDRATE } from 'next-redux-wrapper';
 import { persistReducer } from 'redux-persist';
 

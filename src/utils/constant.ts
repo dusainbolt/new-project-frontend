@@ -29,6 +29,10 @@ const Constant = {
       google: 'idToken',
     },
   },
+  graphQL: {
+    POLICY_DEFAULT_CACHE: 'cache-first',
+    POLICY_NO_CACHE: 'no-cache',
+  },
 };
 
 export default Constant;

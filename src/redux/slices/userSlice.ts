@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { VerifyOAuth2Action, VerifyOAuthSuccess2Action } from '@redux/action/userAction';
+import { GetListUserSuccessAction, VerifyOAuth2Action, VerifyOAuthSuccess2Action } from '@redux/actions/userAction';
 import { getPersistConfig } from '@redux/storage';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { UserSlice } from '@type/user';
@@ -21,6 +21,7 @@ const userSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
+    // verifyOAuth2Start
     verifyOAuth2Start: (state: UserSlice, { payload }: VerifyOAuth2Action) => {
       state.loadingLogin = !!payload.access_token;
     },
@@ -32,22 +33,21 @@ const userSlice = createSlice({
     verifyOAuth2Error: (state: UserSlice) => {
       state.loadingLogin = false;
     },
-    // loginStart: (state: UserSlice, { payload }: LoginAction) => {
-    //   state.loadingLogin = true;
-    //   state.signature = payload.signature;
-    //   // state.role = payload.role;
-    // },
-    // loginSuccess: (state: UserSlice, { payload }: LoginSuccess) => {
-    //   state.loadingLogin = false;
-    //   state.address = payload.address;
-    //   state.token = payload.token;
-    // },
-    // loginError: (state: UserSlice) => {
-    //   state.loadingLogin = false;
-    // },
-    // logout: () => {
-    //   return initialState;
-    // },
+    // getListUserStart
+    getListUserStart: (state: UserSlice) => {
+      state.loadingGetList = true;
+    },
+    getListUserSuccess: (state: UserSlice, { payload }: GetListUserSuccessAction) => {
+      state.loadingGetList = false;
+      state.list = payload;
+    },
+    getListUserError: (state: UserSlice) => {
+      state.loadingGetList = false;
+    },
+    // logout
+    logout: () => {
+      return initialState;
+    },
   },
   extraReducers(builder) {
     builder.addCase(hydrate, (state, action) => {
@@ -61,6 +61,14 @@ const userSlice = createSlice({
 
 export const getUserSlice = (state: RootState): UserSlice => state[sliceName];
 
-export const { verifyOAuth2Start, verifyOAuth2Success, verifyOAuth2Error } = userSlice.actions;
+export const {
+  verifyOAuth2Start,
+  verifyOAuth2Success,
+  verifyOAuth2Error,
+  getListUserStart,
+  getListUserSuccess,
+  getListUserError,
+  logout,
+} = userSlice.actions;
 
 export default persistReducer(getPersistConfig(sliceName, { whitelist: ['token', 'user'] }), userSlice.reducer);

@@ -12,5 +12,8 @@ export type VerifyOAuthResponse = {
   user: User;
 };
 
+export type GetListUserResponse = User[];
+
 export type VerifyOAuth2Action = Record<PayloadName, VerifyOAuth2Params>;
 export type VerifyOAuthSuccess2Action = Record<PayloadName, VerifyOAuthResponse>;
+export type GetListUserSuccessAction = Record<PayloadName, GetListUserResponse>;
