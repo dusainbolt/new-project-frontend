@@ -57,7 +57,7 @@ const HomePage: FC<any> = () => {
           Danh sach user
         </Typography>
         {list?.map((item, index) => (
-          <CardUser index={index} user={item} />
+          <CardUser key={index} user={item} />
         ))}
       </Container>
     </main>
